@@ -131,6 +131,9 @@ class Data:
             for df in adjusted_report_data.values():
                 df.fillna(method="ffill", inplace=True)
             # return report_data
+            if len(adjusted_report_data) == 1:
+                return next(iter(adjusted_report_data.values()))
+            
             return adjusted_report_data.values()
 
         # EX. 想要取得台股加權指數(收盤價):

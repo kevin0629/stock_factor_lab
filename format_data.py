@@ -38,15 +38,15 @@ def format_report_data(raw_report_data, factor):
     返回：
     dict：包含每家公司和日期的因子值的DataFrame字典。
     """
-    factor_list = [f.strip().upper() for f in factor.split(",") if f.strip()]
+    factor_list = factor.split(",")
     dfs_by_id = {}
-    for unique_id in raw_report_data["factor_name"].unique():
-        temp_df = raw_report_data[raw_report_data["factor_name"] == unique_id].pivot(
+    for f in factor_list:
+        temp_df = raw_report_data[raw_report_data["factor_name"] == f].pivot(
             index="date", columns="company_symbol", values="factor_value"
         )
-        dfs_by_id[unique_id] = CustomDataFrame(temp_df)
+        dfs_by_id[f] = CustomDataFrame(temp_df)
 
-    return {f: dfs_by_id[f] for f in factor_list if f in dfs_by_id}
+    return dfs_by_id
 
 
 def handle_price_data(raw_price_data):
